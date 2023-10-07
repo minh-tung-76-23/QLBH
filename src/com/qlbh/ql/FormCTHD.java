@@ -4,7 +4,15 @@
  */
 package com.qlbh.ql;
 
+import ConnectDtb.DatabaseConnection;
+import com.qlbh.main.FormMain;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,6 +27,8 @@ public class FormCTHD extends javax.swing.JFrame {
     public FormCTHD() {
         initComponents();
         setLocationRelativeTo(null);
+        loadtableCTHD1();
+        loadtableCTHD2();
     }
 
     /**
@@ -38,12 +48,15 @@ public class FormCTHD extends javax.swing.JFrame {
         javax.swing.JLabel jLabel12 = new javax.swing.JLabel();
         txtMaKhachHang = new javax.swing.JTextField();
         javax.swing.JButton btnThoat = new javax.swing.JButton();
-        javax.swing.JButton btnTimKiem1 = new javax.swing.JButton();
+        javax.swing.JButton btnTimKiem = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("WinMart - Chi Tiết Hóa Đơn");
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tableCTHD1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 0, 12))); // NOI18N
-        tableCTHD1.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        tableCTHD1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         tableCTHD1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -54,8 +67,10 @@ public class FormCTHD extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tableCTHD1);
 
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(36, 114, 938, 94));
+
         tableCTHD2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 0, 12))); // NOI18N
-        tableCTHD2.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        tableCTHD2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         tableCTHD2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -66,14 +81,21 @@ public class FormCTHD extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tableCTHD2);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(36, 241, 938, 172));
+
+        jLabel1.setBackground(new java.awt.Color(255, 51, 51));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Chi Tiết Hóa Đơn");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 37));
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel12.setText("Nhập Mã Khách Hàng");
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(276, 62, -1, -1));
 
         txtMaKhachHang.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        getContentPane().add(txtMaKhachHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(444, 64, 143, -1));
 
         btnThoat.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnThoat.setText("Thoát");
@@ -83,78 +105,203 @@ public class FormCTHD extends javax.swing.JFrame {
                 btnThoatActionPerformed(evt);
             }
         });
+        getContentPane().add(btnThoat, new org.netbeans.lib.awtextra.AbsoluteConstraints(714, 55, 93, 35));
 
-        btnTimKiem1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnTimKiem1.setText("OK");
-        btnTimKiem1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnTimKiem1.addActionListener(new java.awt.event.ActionListener() {
+        btnTimKiem.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnTimKiem.setText("OK");
+        btnTimKiem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTimKiem1ActionPerformed(evt);
+                btnTimKiemActionPerformed(evt);
             }
         });
+        getContentPane().add(btnTimKiem, new org.netbeans.lib.awtextra.AbsoluteConstraints(605, 55, 93, 35));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(36, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 938, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 938, Short.MAX_VALUE)))
-                .addGap(35, 35, 35))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(270, 270, 270)
-                .addComponent(jLabel12)
-                .addGap(18, 18, 18)
-                .addComponent(txtMaKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnTimKiem1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16)
-                .addComponent(btnThoat, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(txtMaKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnThoat, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnTimKiem1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
-        );
+        jLabel2.setIcon(new javax.swing.ImageIcon("F:\\LT_IT\\Java\\Woskspace\\BaiCuoiKi\\QLBH\\src\\img\\Screenshot 2023-10-08 001215.png")); // NOI18N
+        jLabel2.setText("jLabel2");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 440));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnThoatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThoatActionPerformed
-        int row = tableCTHD1.getSelectedRow();
+    private void loadtableCTHD1() {
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+                String sql = "SELECT HOADON.MaHD, HOADON.MaKh, HOADON.MaNv, HOADON.NgayLap, " +
+                "KHACHHANG.TenKh, KHACHHANG.SDT AS SDTKH, KHACHHANG.GioiTinh AS GioiTinhKH, KHACHHANG.DiaChi AS DiaChiKH, "+
+                "NHANVIEN.TenNhanVien, NHANVIEN.GioiTinh AS GioiTinhNV, NHANVIEN.DiaChi AS DiaChiNV, NHANVIEN.SDT AS SDTNV, " +
+                "CTHD.MaHang, HANGHOA.TenHang AS TenSanPham, CTHD.DonGia, CTHD.SoLuong, CTHD.ThanhTien " +
+                "FROM HOADON " +
+                "INNER JOIN KHACHHANG ON HOADON.MaKh = KHACHHANG.MaKh " +
+                "INNER JOIN NHANVIEN ON HOADON.MaNv = NHANVIEN.MaNv " +
+                "INNER JOIN CTHD ON HOADON.MaHD = CTHD.MaHD " +
+                "INNER JOIN HANGHOA ON CTHD.MaHang = HANGHOA.MaHang ";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-        if (row < 0) {
-            JOptionPane.showMessageDialog(this,
-                "Không có hàng nào được chọn! Vui lòng chọn một hàng",
-                "Chọn hàng!",
-                JOptionPane.ERROR_MESSAGE);
-
-        } else {
             DefaultTableModel model = (DefaultTableModel) tableCTHD1.getModel();
-            model.removeRow(row);
+            model.setRowCount(0); // Xóa tất cả các hàng trong bảng trước khi đổ dữ liệu mới
+
+            while (resultSet.next()) {
+                String maKhachHang = resultSet.getString("MaKh");
+                String tenKhachHang = resultSet.getString("TenKh");
+                String sdtKhachHang = resultSet.getString("SDTKH");
+                String gioiTinhKhachHang = resultSet.getString("GioiTinhKH");
+                String diaChiKhachHang = resultSet.getString("DiaChiKH");
+                String maNhanVien = resultSet.getString("MaNv");
+                String tenNhanVien = resultSet.getString("TenNhanVien");
+                String sdtNhanVien = resultSet.getString("SDTNV");
+                
+                // Thêm dữ liệu vào mô hình của bảng
+                model.addRow(new Object[]{maKhachHang, tenKhachHang, sdtKhachHang, gioiTinhKhachHang, diaChiKhachHang, maNhanVien, tenNhanVien, sdtNhanVien});
+            }
+
+            // Đóng kết nối cơ sở dữ liệu (nếu cần)
+//            conn.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi nạp dữ liệu từ cơ sở dữ liệu: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void loadtableCTHD2() {
+try {
+            Connection conn = DatabaseConnection.getConnection();
+                String sql = "SELECT HOADON.MaHD, HOADON.MaKh, HOADON.MaNv, HOADON.NgayLap, " +
+                "KHACHHANG.TenKh, KHACHHANG.SDT AS SDTKH, KHACHHANG.GioiTinh AS GioiTinhKH, KHACHHANG.DiaChi AS DiaChiKH, "+
+                "NHANVIEN.TenNhanVien, NHANVIEN.GioiTinh AS GioiTinhNV, NHANVIEN.DiaChi AS DiaChiNV, NHANVIEN.SDT AS SDTNV, " +
+                "CTHD.MaHang, HANGHOA.TenHang AS TenSanPham, CTHD.DonGia, CTHD.SoLuong, CTHD.ThanhTien " +
+                "FROM HOADON " +
+                "INNER JOIN KHACHHANG ON HOADON.MaKh = KHACHHANG.MaKh " +
+                "INNER JOIN NHANVIEN ON HOADON.MaNv = NHANVIEN.MaNv " +
+                "INNER JOIN CTHD ON HOADON.MaHD = CTHD.MaHD " +
+                "INNER JOIN HANGHOA ON CTHD.MaHang = HANGHOA.MaHang ";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            DefaultTableModel model = (DefaultTableModel) tableCTHD2.getModel();
+            model.setRowCount(0); // Xóa tất cả các hàng trong bảng trước khi đổ dữ liệu mới
+
+            while (resultSet.next()) {
+                String maHD = resultSet.getString("MaHD");
+                String maSanPham = resultSet.getString("MaHang");
+                String tenSanPham = resultSet.getString("TenSanPham");
+                Date ngayLap = resultSet.getDate("NgayLap");
+                String donGia = resultSet.getString("DonGia");
+                String soLuong = resultSet.getString("SoLuong");
+                String thanhTien = resultSet.getString("ThanhTien");
+                
+                // Thêm dữ liệu vào mô hình của bảng
+                model.addRow(new Object[]{maHD, maSanPham, tenSanPham, ngayLap, donGia, soLuong, thanhTien});
+            }
+
+            // Đóng kết nối cơ sở dữ liệu (nếu cần)
+//            conn.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi nạp dữ liệu từ cơ sở dữ liệu: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void btnThoatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThoatActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn thoát?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            // Ẩn form 
+            this.setVisible(false);
         }
     }//GEN-LAST:event_btnThoatActionPerformed
 
-    private void btnTimKiem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnTimKiem1ActionPerformed
+    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
+        String maKhachHang = txtMaKhachHang.getText();
 
+        // Xóa toàn bộ dữ liệu trong hai bảng
+        clearTable(tableCTHD1);
+        clearTable(tableCTHD2);
+
+        // Gọi phương thức để tải lại dữ liệu dựa trên Mã Khách Hàng
+        loadDataToTableCTHD1(maKhachHang);
+        loadDataToTableCTHD2(maKhachHang);
+    }//GEN-LAST:event_btnTimKiemActionPerformed
+
+    // Phương thức để xóa toàn bộ dữ liệu trong một bảng
+private void clearTable(JTable table) {
+    DefaultTableModel model = (DefaultTableModel) table.getModel();
+    model.setRowCount(0);
+}
+
+// Phương thức để tải lại dữ liệu vào bảng tableCTHD1 dựa trên Mã Khách Hàng
+private void loadDataToTableCTHD1(String maKhachHang) {
+    try {
+        Connection conn = DatabaseConnection.getConnection();
+        String sql = "SELECT HOADON.MaHD, HOADON.MaKh, HOADON.MaNv, HOADON.NgayLap, " +
+                "KHACHHANG.TenKh, KHACHHANG.SDT AS SDTKH, KHACHHANG.GioiTinh AS GioiTinhKH, KHACHHANG.DiaChi AS DiaChiKH, " +
+                "NHANVIEN.TenNhanVien, NHANVIEN.GioiTinh AS GioiTinhNV, NHANVIEN.DiaChi AS DiaChiNV, NHANVIEN.SDT AS SDTNV, " +
+                "CTHD.MaHang, HANGHOA.TenHang AS TenSanPham, CTHD.DonGia, CTHD.SoLuong, CTHD.ThanhTien " +
+                "FROM HOADON " +
+                "INNER JOIN KHACHHANG ON HOADON.MaKh = KHACHHANG.MaKh " +
+                "INNER JOIN NHANVIEN ON HOADON.MaNv = NHANVIEN.MaNv " +
+                "INNER JOIN CTHD ON HOADON.MaHD = CTHD.MaHD " +
+                "INNER JOIN HANGHOA ON CTHD.MaHang = HANGHOA.MaHang " +
+                "WHERE KHACHHANG.MaKh = ?";
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        preparedStatement.setString(1, maKhachHang);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        DefaultTableModel model = (DefaultTableModel) tableCTHD1.getModel();
+
+        while (resultSet.next()) {
+            String maKh = resultSet.getString("MaKh");
+            String tenKh = resultSet.getString("TenKh");
+            String sdtKh = resultSet.getString("SDTKH");
+            String gioiTinhKh = resultSet.getString("GioiTinhKH");
+            String diaChiKh = resultSet.getString("DiaChiKH");
+            String maNv = resultSet.getString("MaNv");
+            String tenNv = resultSet.getString("TenNhanVien");
+            String sdtNv = resultSet.getString("SDTNV");
+
+            // Thêm dữ liệu vào mô hình của bảng tableCTHD1
+            model.addRow(new Object[]{maKh, tenKh, sdtKh, gioiTinhKh, diaChiKh, maNv, tenNv, sdtNv});
+        }
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Lỗi khi nạp dữ liệu từ cơ sở dữ liệu: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+    }
+}
+
+// Phương thức để tải lại dữ liệu vào bảng tableCTHD2 dựa trên Mã Khách Hàng
+private void loadDataToTableCTHD2(String maKhachHang) {
+    try {
+        Connection conn = DatabaseConnection.getConnection();
+        String sql = "SELECT HOADON.MaHD, HOADON.MaKh, HOADON.MaNv, HOADON.NgayLap, " +
+                "KHACHHANG.TenKh, KHACHHANG.SDT AS SDTKH, KHACHHANG.GioiTinh AS GioiTinhKH, KHACHHANG.DiaChi AS DiaChiKH, " +
+                "NHANVIEN.TenNhanVien, NHANVIEN.GioiTinh AS GioiTinhNV, NHANVIEN.DiaChi AS DiaChiNV, NHANVIEN.SDT AS SDTNV, " +
+                "CTHD.MaHang, HANGHOA.TenHang AS TenSanPham, CTHD.DonGia, CTHD.SoLuong, CTHD.ThanhTien " +
+                "FROM HOADON " +
+                "INNER JOIN KHACHHANG ON HOADON.MaKh = KHACHHANG.MaKh " +
+                "INNER JOIN NHANVIEN ON HOADON.MaNv = NHANVIEN.MaNv " +
+                "INNER JOIN CTHD ON HOADON.MaHD = CTHD.MaHD " +
+                "INNER JOIN HANGHOA ON CTHD.MaHang = HANGHOA.MaHang " +
+                "WHERE KHACHHANG.MaKh = ?";
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        preparedStatement.setString(1, maKhachHang);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        DefaultTableModel model = (DefaultTableModel) tableCTHD2.getModel();
+
+        while (resultSet.next()) {
+            String maHD = resultSet.getString("MaHD");
+            String maSanPham = resultSet.getString("MaHang");
+            String tenSanPham = resultSet.getString("TenSanPham");
+            Date ngayLap = resultSet.getDate("NgayLap");
+            String donGia = resultSet.getString("DonGia");
+            String soLuong = resultSet.getString("SoLuong");
+            String thanhTien = resultSet.getString("ThanhTien");
+
+            // Thêm dữ liệu vào mô hình của bảng tableCTHD2
+            model.addRow(new Object[]{maHD, maSanPham, tenSanPham, ngayLap, donGia, soLuong, thanhTien});
+        }
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Lỗi khi nạp dữ liệu từ cơ sở dữ liệu: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+    }
+}
+    
     /**
      * @param args the command line arguments
      */
@@ -191,6 +338,7 @@ public class FormCTHD extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JTable tableCTHD1;
     private javax.swing.JTable tableCTHD2;
     private javax.swing.JTextField txtMaKhachHang;
